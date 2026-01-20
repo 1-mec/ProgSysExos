@@ -57,6 +57,15 @@ Matrice calc(Matrice m1 , Matrice m2){
 	return m3;
 }
 
+void libere(Matrice mat) {
+	for (int i = 0 ; i<mat.nb_ligne; i++) {
+		free(mat.m[i]);
+	}
+	free(mat.m);
+	mat.nb_col = 0;
+	mat.nb_ligne = 0;
+}
+
 int main(){
 	Matrice mat1 = alloue(2,2);
 	mat1.m[0][0] = 1;
@@ -76,6 +85,9 @@ int main(){
 	printf("=================================\n");
 	Matrice mat3 = calc(mat1,mat2);
 	printf("=================================\n");
+	aff_mat(mat3);
+	printf("=================================\n");
+	libere(mat3);
 	aff_mat(mat3);
 	
 	return 0;
