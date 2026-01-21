@@ -6,27 +6,25 @@
 
 int calc (unsigned char arg[LEN]) {
     int res = 0 ;
-    for (int i = 0 ; i < LEN ; i++) {
-        for (int y = 0; y < 8; y++) {
-            if ((arg[i] & (1 << y) )!=0) res++;
+    for (int i = 0; i < LEN; ++i) {
+        for (int a = 0; a <= 7; ++a) {
+            if ((arg[i] & (1 << a)) != 0)  res += 1;
+            printf("i : %i\n",a);
         }
     }
-    printf("res -> %i ",res);
+    printf("res -> %i\n",res);
     return res;
 }
 
 // b)
+void revele(unsigned char msg[LEN],unsigned char cle) {
 
-void revele(unsigned char arg[LEN], unsigned char cle) {
-    printf("\n=================================\n");
-    for (int i = 0; i < LEN; ++i) {
-        unsigned char mdp = arg[i] ^ cle;
-        printf("%c",mdp);
-        cle = (cle << 1)|(cle >> 7);
+    for (int i = 0 ; i < LEN ; i++) {
+        unsigned char res = msg[i] ^ cle;
+        cle = (cle << 1) | (cle >> 7);
+        printf("%c",res);
     }
-    printf("\n");
 }
-
 
 int main(int argc, char *argv[]) {
     unsigned char cle = 0b11001011;  // 0xCB en hexa, 203 en décimal
