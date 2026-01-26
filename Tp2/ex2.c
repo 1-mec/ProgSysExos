@@ -35,8 +35,7 @@ int main(int argc, char *argv[]) {
     //a
     printf("============================================\n\tbase :\n");
     if(fork() != 0){
-        int statut; 
-        int r = wait(&statut);
+        wait(NULL);
         printf("comptage de x\n");
         compter(x);
     }else {
