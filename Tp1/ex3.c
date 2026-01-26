@@ -1,12 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* 
-	Ecrire un programme permettant de multiplier des matrices.
-	m de cette structure va contenir les nombres de la matrice. C’est un pointeur vers des
-	pointeurs vers des entiers.
-	a/ écrire la fonction Matrice alloue_matrice(int nb_ligne, int nb_col);
-*/
 typedef struct{
 	int nb_ligne;
 	int nb_col;
