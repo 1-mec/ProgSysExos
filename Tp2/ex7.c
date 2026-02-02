@@ -7,24 +7,25 @@
 #define N 3
 
 void init_processus_fils() {
-  struct sigaction act;
-  act.sa_handler = SIG_IGN;
-  sigaction(SIGINT, &act, NULL);
-  while (1) {
-    sleep(1);
-  }//slide 37&38
+    while (1) {
+        sleep(1);
+    }//slide 37&38
 }
 
-int main() {
 
+int main() {
     int t[N];
+    int marche[N];
+
+    for (int i = 0; i < N; i++) {
+        marche[i] = 1;
+    }
 
     for(int i=0;i<N;i++) {
         int pid = fork();
         if (pid == 0) init_processus_fils();
         t[i] = pid;
     }
-
     printf("Processus fils : ");
     for(int i=0;i<N;i++) {
         printf("%d ", t[i]);
@@ -32,10 +33,28 @@ int main() {
     printf("\n");
 
     int r;
+    int status;
     do {
         printf("avant waitpid ...\n");
-        r = waitpid(-1, NULL, WSTOPPED | WCONTINUED);
+        r = waitpid(-1, &status, WSTOPPED | WCONTINUED );
         printf(" ... waitpid a retourné %d\n\n", r);
+        for(int i=0;i<N;i++) {
+            if (r == t[i]) {
+                if (WIFSTOPPED(status)) {
+                    marche[i] = 0;
+                    printf("%d est en pause(à mimir) \n",t[i]);
+                } else if(WIFCONTINUED(status)) {
+                    marche[i] = 1;
+                    printf("%d charbonne smr\n",t[i]);
+                }
+            }
+        }
+
+        printf("Marche ou pas\n");
+        for(int i=0;i<N;i++) {
+            printf("état = %d\n",marche[i]);
+        }
+
     } while (r != -1);
 
     printf("fin du processus père\n");
